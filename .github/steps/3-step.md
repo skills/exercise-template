@@ -1,4 +1,4 @@
-## Step 1: (replace-me: STEP-NAME)
+## Step 3: (replace-me: STEP-NAME)
 
 (replace-me: OPTIONAL Brief story or scenario to introduce the step)
 
