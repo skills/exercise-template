@@ -18,7 +18,7 @@ permissions:
   issues: write
 
 env:
-  REVIEW_FILE: ".github/steps/x-review.md"
+  STEP_3_FILE: ".github/steps/3-step.md"
 
 jobs:
   find_exercise:
@@ -53,7 +53,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # START: Check practical exercise
-      
+
       # replace-me: Example of a grading check. You can add more checks as needed.
       - name: Check if README file exists
         id: check-file-exists
@@ -85,9 +85,9 @@ jobs:
               - description: "Checked for Installation guide in README.md"
                 passed: ${{ steps.check-for-keyphrase.outcome == 'success' }}
           # Add more checks as needed
-  
+
           # END: Check practical exercise
-          
+
       - name: Create comment - step results
         run: |
           gh issue comment "$ISSUE_URL" \
@@ -101,9 +101,9 @@ jobs:
         if: contains(steps.*.outcome, 'failure')
         run: exit 1
 
-  post_review_content:
-    name: Post review content
-    needs: [find_exercise, check_step_work]
+  post_next_step_content:
+    name: Post next step content
+    needs: [find_exercise]
     runs-on: ubuntu-latest
     env:
       ISSUE_URL: ${{ needs.find_exercise.outputs.issue-url }}
@@ -112,31 +112,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Get response templates
+        uses: actions/checkout@v4
+        with:
+          repository: skills/exercise-toolkit
+          path: exercise-toolkit
+          ref: v0.6.0
+
+      - name: Build message - step finished
+        id: build-message-step-finish
+        uses: skills/action-text-variables@v2
+        with:
+          template-file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
+          template-vars: |
+            next_step_number: 2
+
+      - name: Update comment - step finished
+        run: |
+          gh issue comment "$ISSUE_URL" \
+            --body "$ISSUE_BODY"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_BODY: ${{ steps.build-message-step-finish.outputs.updated-text }}
+
       - name: Create comment - add step content
         run: |
           gh issue comment "$ISSUE_URL" \
-            --body-file "$REVIEW_FILE"
+            --body-file "$STEP_2_FILE"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # The last workflow in the chain of steps should also finish the exercise.
-  finish_exercise:
-    name: Finish Exercise
-    needs: [find_exercise, post_review_content]
-    uses: skills/exercise-toolkit/.github/workflows/finish-exercise.yml@v0.6.0
-    with:
-      issue-url: ${{ needs.find_exercise.outputs.issue-url }}
+      - name: Create comment - watching for progress
+        run: |
+          gh issue comment "$ISSUE_URL" \
+            --body-file exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  disable_workflow:
-    name: Disable this workflow
-    needs: [find_exercise, post_review_content]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Disable current workflow
-        run: gh workflow disable "${{github.workflow}}"
+      - name: Disable current workflow and enable next one
+        run: |
+          gh workflow disable "${{github.workflow}}"
+          gh workflow enable "Step 3"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

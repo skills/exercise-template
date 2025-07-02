@@ -24,6 +24,7 @@ jobs:
     name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.6.0
 
+  # This job is optional. We often call it a "grading job". If the step is not graded, remove it.
   check_step_work:
     name: Check step work
     runs-on: ubuntu-latest
@@ -82,12 +83,6 @@ jobs:
         if: contains(steps.*.outcome, 'failure')
         run: exit 1
 
-      - name: Create comment - step finished - final review next
-        run: |
-          gh issue comment "$ISSUE_URL" \
-            --body-file exercise-toolkit/markdown-templates/step-feedback/lesson-review.md
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   post_review_content:
     name: Post review content
@@ -108,12 +103,21 @@ jobs:
           path: exercise-toolkit
           ref: v0.6.0
 
-      - name: Create comment - add step content
+      - name: Create comment - step finished - final review next
+        run: |
+          gh issue comment "$ISSUE_URL" \
+            --body-file exercise-toolkit/markdown-templates/step-feedback/lesson-review.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create comment - add review content
         run: |
           gh issue comment "$ISSUE_URL" \
             --body-file "$REVIEW_FILE"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Disable current workflow
+        run: gh workflow disable "${{github.workflow}}"
 
   finish_exercise:
     name: Finish Exercise
@@ -122,16 +126,3 @@ jobs:
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
       exercise-title: "Modernize your legacy code with GitHub Copilot"
-
-  disable_workflow:
-    name: Disable this workflow
-    needs: [find_exercise, post_review_content]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Disable current workflow
-        run: gh workflow disable "${{github.workflow}}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
