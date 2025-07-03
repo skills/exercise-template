@@ -47,9 +47,9 @@ jobs:
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1
         with:
-          file: ${{ env.STEP_1_FILE }}
-          issue-number: ${{ env.ISSUE_NUMBER }}
           repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: ${{ env.STEP_1_FILE }}
           vars: |
             login: ${{ github.actor }}
             full_repo_name: ${{ github.repository }}
@@ -57,9 +57,9 @@ jobs:
       - name: Create comment - watching for progress
         uses: GrantBirki/comment@v2.1.1
         with:
-          file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
-          issue-number: ${{ env.ISSUE_NUMBER }}
           repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          file: exercise-toolkit/markdown-templates/step-feedback/watching-for-progress.md
 
       - name: Enable next step workflow
         run: |
