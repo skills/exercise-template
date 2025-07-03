@@ -132,7 +132,7 @@ jobs:
           issue-number: ${{ env.ISSUE_NUMBER }}
           file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           vars: |
-            next_step_number: 2
+            next_step_number: 3
 
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1
