@@ -24,6 +24,84 @@ jobs:
     name: Find Exercise Issue
     uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.0
 
+  check_step_work:
+    name: Check step work
+    runs-on: ubuntu-latest
+    needs: [find_exercise]
+    env:
+      ISSUE_REPOSITORY: ${{ github.repository }}
+      ISSUE_NUMBER: ${{ needs.find_exercise.outputs.issue-number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get response templates
+        uses: actions/checkout@v4
+        with:
+          repository: skills/exercise-toolkit
+          path: exercise-toolkit
+          ref: v0.7.0
+
+      - name: Find last comment
+        id: find-last-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          direction: last
+
+      - name: Update comment - checking work
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          comment-id: ${{ steps.find-last-comment.outputs.comment-id }}
+          file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
+          edit-mode: replace
+
+      # START: Check practical exercise
+
+      # replace-me: Example of a grading check. You can add more checks as needed.
+      - name: Check if README file exists
+        id: check-file-exists
+        continue-on-error: true
+        uses: skills/exercise-toolkit/actions/file-exists@v0.7.0
+        with:
+          file: README.md
+
+      # replace-me: Example of a grading check. You can add more checks as needed.
+      - name: Check for keyphrase in README.md
+        id: check-for-keyphrase
+        continue-on-error: true
+        uses: skills/action-keyphrase-checker@v1
+        with:
+          text-file: README.md
+          keyphrase: Installation guide
+
+      - name: Update comment - step results
+        uses: GrantBirki/comment@v2.1.1
+        with:
+          repository: ${{ env.ISSUE_REPOSITORY }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
+          comment-id: ${{ steps.find-last-comment.outputs.comment-id }}
+          edit-mode: replace
+          file: exercise-toolkit/markdown-templates/step-feedback/step-results-table.md
+          vars: |
+            step_number: 2
+            results_table:
+              - description: "Checked if README.md file exists"
+                passed: ${{ steps.check-file-exists.outcome == 'success' }}
+              - description: "Checked for Installation guide in README.md"
+                passed: ${{ steps.check-for-keyphrase.outcome == 'success' }}
+
+      # Add more checks as needed
+
+      # END: Check practical exercise
+      - name: Fail job if not all checks passed
+        if: contains(steps.*.outcome, 'failure')
+        run: exit 1
+
   post_review_content:
     name: Post review content
     needs: [find_exercise]

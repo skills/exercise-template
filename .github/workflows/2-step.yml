@@ -107,7 +107,7 @@ jobs:
 
   post_next_step_content:
     name: Post next step content
-    needs: [find_exercise]
+    needs: [find_exercise] # if check_step_work then needs: [find_exercise, check_step_work]
     runs-on: ubuntu-latest
     env:
       ISSUE_REPOSITORY: ${{ github.repository }}
@@ -138,7 +138,7 @@ jobs:
         with:
           repository: ${{ env.ISSUE_REPOSITORY }}
           issue-number: ${{ env.ISSUE_NUMBER }}
-          file: ${{ env.STEP_2_FILE }}
+          file: ${{ env.STEP_3_FILE }}
 
       - name: Create comment - watching for progress
         uses: GrantBirki/comment@v2.1.1
