@@ -38,8 +38,12 @@ It is meant to help design a well-structured exercise.
 
 ### (optional) On Start
 
+<!--
+Any automation to be added during the 'start-exercise' workflow that will help prepare the exercise. Nothing manual.
+-->
+
 - (replace-me: Any actions to run during the startup workflow.)
-- (replace-me: An files that need created or modified.)
+- (replace-me: Any files that need created or modified.)
 
 ## Step 1 - (replace-me: Step Title)
 
