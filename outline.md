@@ -8,6 +8,7 @@ It is meant to help design a well-structured exercise.
 <!-- Important Context, critical dates, related releases, other special notes, etc. -->
 
 **Repo URL:** (replace-me: Tentative repository url)
+
 **Start Point:** (replace-me: optional - existing repository this exercise builds from)
 
 ---
@@ -36,11 +37,10 @@ It is meant to help design a well-structured exercise.
 - replace-me: List required prior knowledge.
 - replace-me: List required prior exercises.
 
-### On Start
+### (optional) On Start
 
 - (replace-me: Any actions to run during the startup workflow.)
-- (replace-me: Pre-create issues?)
-- (replace-me: Pre-modify files?)
+- (replace-me: An files that need created or modified.)
 
 ## Step 1 - (replace-me: Step Title)
 
