@@ -2,6 +2,10 @@
 
 (replace-me: OPTIONAL Brief story or scenario to introduce the step)
 
+(replace-me: OPTIONAL Reference images from the `.github/images/` directory to support any part of the content)
+
+<img width="200" alt="descriptive alt text" src="../images/inspectocat.png" />
+
 ### 📖 Theory: (replace-me: Theory title)
 
 <!-- GitHub-styled notifications can be used outside of ordered lists. Available options are: NOTE, IMPORTANT, WARNING, TIP, CAUTION -->
@@ -12,10 +16,15 @@
 
 (replace-me: Optional theory or background information relevant to this step)
 
+
 ### ⌨️ Activity: (replace-me: Activity title)
 
 1. (replace-me: First instruction)
+
+    (replace-me: Make sure to properly indent any multiline instructions)
+
 1. (replace-me: Second instruction)
+
 1. (replace-me: Additional instructions as needed)
 
 <details>

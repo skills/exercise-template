@@ -1,6 +1,5 @@
 name: Step 2
 
-
 on:
   workflow_dispatch:
   # Common event triggers: pull_request, push, issues, issue_comment (feel free to experiment)
@@ -23,7 +22,7 @@ env:
 jobs:
   find_exercise:
     name: Find Exercise Issue
-    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.3
+    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.8.1
 
   # This job is optional. We often call it a "grading job". If the step is not graded, remove it.
   check_step_work:
@@ -43,7 +42,7 @@ jobs:
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.3
+          ref: v0.8.1
 
       - name: Find last comment
         id: find-last-comment
@@ -68,7 +67,7 @@ jobs:
       - name: Check if README file exists
         id: check-file-exists
         continue-on-error: true
-        uses: skills/exercise-toolkit/actions/file-exists@v0.7.3
+        uses: skills/exercise-toolkit/actions/file-exists@v0.8.1
         with:
           file: README.md
 
@@ -122,7 +121,7 @@ jobs:
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.3
+          ref: v0.8.1
 
       - name: Create comment - step finished
         uses: GrantBirki/comment@v2.1.1

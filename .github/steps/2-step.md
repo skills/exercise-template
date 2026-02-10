@@ -12,10 +12,19 @@
 
 (replace-me: Optional theory or background information relevant to this step)
 
+(replace-me: OPTIONAL Reference images from the `.github/images/` directory to support any part of the content)
+
+<img width="200" alt="descriptive alt text" src="../images/inflatocat.png" />
+
+
 ### ⌨️ Activity: (replace-me: Activity title)
 
 1. (replace-me: First instruction)
+
+    (replace-me: Make sure to properly indent any multiline instructions)
+
 1. (replace-me: Second instruction)
+
 1. (replace-me: Additional instructions as needed)
 
 <details>

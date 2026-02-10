@@ -1,4 +1,4 @@
-name: Step 1 
+name: Step 1
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ env:
 jobs:
   find_exercise:
     name: Find Exercise Issue
-    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.7.3
+    uses: skills/exercise-toolkit/.github/workflows/find-exercise-issue.yml@v0.8.1
 
   post_next_step_content:
     name: Post next step content
@@ -39,7 +39,7 @@ jobs:
         with:
           repository: skills/exercise-toolkit
           path: exercise-toolkit
-          ref: v0.7.3
+          ref: v0.8.1
 
       - name: Create comment - step finished
         uses: GrantBirki/comment@v2.1.1
@@ -49,7 +49,7 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/step-finished-prepare-next-step.md
           vars: |
             next_step_number: 2
-          
+
       - name: Create comment - add step content
         uses: GrantBirki/comment@v2.1.1
         with:
