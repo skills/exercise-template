@@ -15,7 +15,15 @@
 ### ⌨️ Activity: (replace-me: Activity title)
 
 1. (replace-me: First instruction)
+
+   (replace-me: Make sure to properly indent any multiline instructions)
+
 1. (replace-me: Second instruction)
+
+   (replace-me: Optionally reference images from the `.github/images/` directory to support any part of the content)
+
+   <img width="200" alt="descriptive alt text" src="../images/jetpacktocat.png" />
+
 1. (replace-me: Additional instructions as needed)
 
 <details>
