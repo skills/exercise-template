@@ -44,6 +44,3 @@ If the exercise isn't ready in 20 seconds, please check the [Actions](../../acti
 
 </details>
 
----
-
-&copy; 2026 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
